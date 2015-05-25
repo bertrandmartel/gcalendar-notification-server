@@ -14,10 +14,10 @@ Basically, once authorization to your Google Calendar profile is granted; when y
 
 <b>Registration to Google Oauth2.0 API</b>
 
-1) server request an usercode and a verification url for the user to be able to access his/her Google login page.
-2) these verification url and usercode are sent to user interface.
-3) Web client open the google device login page in which the user will have to copy/paste the usercode (shown on the web page)
-4) Eventually, by clicking OK user grants the server access to Google Oauth2.0 API with specified profiles that were requested
+* 1) server request an usercode and a verification url for the user to be able to access his/her Google login page.
+* 2) these verification url and usercode are sent to user interface.
+* 3) Web client open the google device login page in which the user will have to copy/paste the usercode (shown on the web page)
+* 4) Eventually, by clicking OK user grants the server access to Google Oauth2.0 API with specified profiles that were requested
 
 This process is described in https://developers.google.com/identity/protocols/OAuth2ForDevices
 
