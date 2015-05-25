@@ -45,9 +45,7 @@ import fr.bmartel.protocol.http.states.HttpStates;
 
 /**
  * Trigger Google authentication test
- * 
- * User is invited to enter his gmail address and will be
- * authenticated/connected without User Interface
+ *
  * 
  * @author Bertrand Martel
  *
@@ -57,8 +55,6 @@ public class LaunchOauthApiServer {
 	private final static int PORT = 4242;
 
 	/**
-	 * Invite user to enter google email address
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
