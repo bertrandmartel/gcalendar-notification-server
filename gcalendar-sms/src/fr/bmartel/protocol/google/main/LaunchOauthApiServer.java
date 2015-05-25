@@ -34,9 +34,7 @@ import fr.bmartel.protocol.google.oauth.device.AuthenticationManager;
 
 /**
  * Trigger Google authentication test
- * 
- * User is invited to enter his gmail address and will be
- * authenticated/connected without User Interface
+ *
  * 
  * @author Bertrand Martel
  *
@@ -44,8 +42,6 @@ import fr.bmartel.protocol.google.oauth.device.AuthenticationManager;
 public class LaunchOauthApiServer {
 
 	/**
-	 * Invite user to enter google email address
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
