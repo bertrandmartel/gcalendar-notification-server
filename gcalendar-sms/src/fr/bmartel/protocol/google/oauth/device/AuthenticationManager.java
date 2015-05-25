@@ -86,7 +86,8 @@ public class AuthenticationManager {
 	 * Request usercode and verification url
 	 * 
 	 */
-	public void requestDeviceAuth() {
+	public void requestDeviceAuth(
+			final IOauthDeviceResponseListener responseListener) {
 
 		String method = "POST";
 		String uri = GoogleConst.GOOGLE_USERCODE_REQUEST_URI;
@@ -131,10 +132,12 @@ public class AuthenticationManager {
 					JSONObject queryResponse = (JSONObject) obj;
 
 					if (queryResponse != null) {
+						
 						OauthForDeviceResponse response = OauthForDeviceResponse
 								.decodeOauthForDeviceResponse(queryResponse);
-						if (response != null) {
-							response.displayInfo();
+						
+						if (responseListener != null) {
+							responseListener.onResponseReceived(response);
 						}
 					}
 

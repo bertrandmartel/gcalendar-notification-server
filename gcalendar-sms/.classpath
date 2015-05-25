@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="libs/clientsocket-1.0.jar"/>
 	<classpathentry kind="lib" path="libs/http-endec-1.0.jar"/>
 	<classpathentry kind="lib" path="libs/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/serversocket-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
