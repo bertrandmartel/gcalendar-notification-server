@@ -64,37 +64,37 @@ import fr.bmartel.utils.FileUtils;
  * token _request user profile _retrieve google calendar events on a specific
  * date time range _create event from web client _delete evetn from web client
  * _subscribe/unsubscribe to specific event at will _send notification when
- * subscribed event is about to start or has started
- * 
- * @author Bertrand Martel
+ * subscribed event is about to start or has started.
  *
+ * @author Bertrand Martel
  */
 public class LaunchOauthApiServer {
 
-	/**
-	 * Web server port
-	 */
+	/** Web server port. */
 	private final static int SERVER_PORT = 4242;
 
-	/**
-	 * Websocket server port
-	 */
+	/** Websocket server port. */
 	private final static int WEBSOCKET_SERVER_PORT = 4343;
 
+	/** The websocket server. */
 	private static WebsocketServer websocketServer = null;
 
+	/** The web path. */
 	private static String webPath = "";
 
+	/** The client id. */
 	private static String clientId = "";
+	
+	/** The client secret. */
 	private static String clientSecret = "";
 
-	/**
-	 * Calendar api manager object
-	 */
+	/** Calendar api manager object. */
 	private static CalendarNotifManager calendarNotifManager = null;
 
 	/**
-	 * @param args
+	 * The main method.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 
@@ -489,6 +489,11 @@ public class LaunchOauthApiServer {
 
 	}
 
+	/**
+	 * Prints the help.
+	 *
+	 * @param errorDescription the error description
+	 */
 	private static void printHelp(String errorDescription) {
 
 		if (!errorDescription.equals("")) {

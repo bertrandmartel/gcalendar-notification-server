@@ -1,0 +1,6 @@
+fr.bmartel.protocol.google.api.calendar
+fr.bmartel.protocol.google.api.profile
+fr.bmartel.protocol.google.constants
+fr.bmartel.protocol.google.notification
+fr.bmartel.protocol.google.oauth.device
+fr.bmartel.utils
