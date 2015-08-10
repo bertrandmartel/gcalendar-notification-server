@@ -1,3 +1,5 @@
-.settings
+*.o
+*.user
 .metadata
+.settings
 .recommenders

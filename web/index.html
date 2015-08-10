@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google calendar notification</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery.datetimepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
+
+    <script type="text/javascript" language="javascript" src="./gcalendar-notification-client-1.0.js"></script>
+    
+  </head>
+
+  <body onload="launchWebsocketClient();">
+
+    <div class="info message">
+       <h3>Event notification !</h3>
+       <p id="eventSummary"></p>
+    </div>
+
+    <section>
+      <div id="one" class="container">
+        <a href="#" class="myButton" onClick="startRegistration();">start registration</a><br/><br/>
+        <div id="requestTokenDiv" style='display:none;'>
+          <a href="#" class="myButton" onClick="requestToken();" id="requestTokenBtn">request token</a><br/><br/>
+          <a href="#" class="myButton" onClick="revokeToken();" id="revokeTokenBtn">revoke token</a><br/><br/>
+        </div>
+        <span id="infoMessage" style='font-size:large;'></span>
+      </div>
+
+      <div id="two" style='display:none;'>
+        <table class="tableInfo">
+            <tr>
+                <td>verification url</td>
+                <td id="verificationUrl">---</td>
+            </tr>
+            <tr>
+                <td>user code</td>
+                <td id="userCode">---</td>
+            </tr>
+        </table>
+        <br/>
+        
+        <span id="infoMessage2" style='font-size:large;padding:5px;'></span>
+
+        <div id="two2" style='display:none;'>
+          <table class="tableInfo">
+              <tr>
+                  <td>access token</td>
+                  <td id="accessToken">---</td>
+              </tr>
+              <tr>
+                  <td>expire in</td>
+                  <td id="expireIn">---</td>
+              </tr>
+          </table>
+          <br/>
+
+          <a href="#" class="myButton" onClick="getUserProfile();">user profile</a><br/><br/>
+          <a href="#" class="myButton" onClick="getCalendarEvents();">calendar events</a> <a href="#" class="myButton" onClick="deleteCalendarEvent();">delete event</a> <a href="#" class="myButton" onClick="createCalendarEvent();">create event</a><br/><br/>
+
+           between <input style='font-size:large;' id="dateStart" /> and <input style='font-size:large;' id="dateEnd"/> | filter with <input style='font-size:large;' type="text" id="filterText" value="" />
+
+          <br/><br/>
+          <span id="infoMessage3" style='font-size:large;padding:5px;'></span>
+        </div>
+        <br/>
+        
+        <div id="calendar_div">
+          <table id="calendarTable" class="display" cellspacing="0" width="100%"> 
+          </table>
+        </div>
+
+      </div>
+    </section>
+    <div id="createEvent">
+        <table>
+          <tr>
+            <td>summary</td>
+            <td><input type="text" id="summary"></td>
+          </tr>
+          <tr>
+            <td>date start</td>
+            <td><input type="text" id="createEventDateStart"></td>
+          </tr>
+          <tr>
+            <td>date end</td>
+            <td><input type="text" id="createEventDateEnd"></td>
+          </tr>
+        </table>
+        <input type="button" value="create event" onClick="sendCalendarEventCreation();"/>
+    </div>
+    <div id="userProfile">
+        <table>
+          <tr>
+            <td>gender</td>
+            <td id="gender">---</td>
+            </tr>
+            <tr>
+            <td>display Name</td>
+            <td id="displayName">---</td>
+            </tr>
+            <tr>
+            <td>family Name</td>
+            <td id="familyName">---</td>
+            </tr>
+            <tr>
+            <td>given Name</td>
+            <td id="givenName">---</td>
+            </tr>
+            <tr>
+            <td>language</td>
+            <td id="language">---</td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" language="javascript" src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="./jquery.datetimepicker.js"></script>
+
+    <script>
+
+      $(function() {
+          $( "#createEvent" ).dialog({
+
+            resizable: false,
+            title:"Create calendar event",
+            width:400,
+            autoOpen: false,
+            modal: true
+          });
+
+          $('#createEventDateStart').datetimepicker({
+          });
+
+          $('#createEventDateEnd').datetimepicker({
+          });
+
+          $('#dateStart').datetimepicker({
+          });
+
+          $('#dateEnd').datetimepicker({
+          });
+
+          $( "#userProfile" ).dialog({
+
+            resizable: false,
+            title:"User profile",
+            width:400,
+            autoOpen: false,
+            modal: true,
+            buttons: {
+              OK: function() {
+                $( this ).dialog( "close" );
+              }
+            }
+          });
+      });
+    </script>
+  </body>
+
+</html>
