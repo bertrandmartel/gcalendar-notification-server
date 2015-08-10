@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Gcalendar-notification-server by akinaru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Gcalendar-notification-server</h1>
+      <h2 class="project-tagline">Google calendar embedded notification server</h2>
+      <a href="https://github.com/akinaru/gcalendar-notification-server" class="btn">View on GitHub</a>
+      <a href="https://github.com/akinaru/gcalendar-notification-server/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/akinaru/gcalendar-notification-server/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="google-calendar-event-notification-server" class="anchor" href="#google-calendar-event-notification-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Google Calendar event notification server</h1>
+
+<p><i>Last update on 09/08/2015</i></p>
+
+<p>Embedded google calendar event notification server through Google Calendar API (Oauth2.0)</p>
+
+<p>This project is an alternative for "end device" to Google Calendar push notification (<a href="https://developers.google.com/google-apps/calendar/v3/push?hl=en">https://developers.google.com/google-apps/calendar/v3/push?hl=en</a>) where you need to have a domain receiving your notifications which force your application to have a back end realizing the job for your client.</p>
+
+<p>2 parts are featured :</p>
+
+<ul>
+<li>gcalendar-notification-lib which is library you would used to manage Google Calendar API and process events notifications</li>
+<li>gcalendar-notification-webserver which is a server implementation and message process management which expose its API for a web client</li>
+</ul>
+
+<p>If you have your own server implementation, you can integrate gcalendar-notification-lib separately without the server part</p>
+
+<h3>
+<a id="what-does-it-do-" class="anchor" href="#what-does-it-do-" aria-hidden="true"><span class="octicon octicon-link"></span></a>What does it do ?</h3>
+
+<ul>
+<li>receive notifications of all events you have subscribed through gcalendar-notification-lib APIs that are pushed to a web client</li>
+<li>subscribe/unsubscribe to a precise event</li>
+<li>create an event (with date start, date end and summary)</li>
+<li>delete an event</li>
+<li>retrieve list of Google calendar events for a specific date time range and optionnal text filter</li>
+<li>retrieve basic user profile information</li>
+<li>request an access token that will be used to request Google API for the scope Profile and Calendar</li>
+<li>revoke an access token (if you want to)</li>
+<li>register through Oauth2.0</li>
+</ul>
+
+<p>[ ! ] Event creation is very basic for now (date start / date begin and summary) but is a good medium to test notifications</p>
+
+<h3>
+<a id="run-the-testing-server-app" class="anchor" href="#run-the-testing-server-app" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run the testing server app</h3>
+
+<p><code>git clone git@github.com:akinaru/gcalendar-notification-server.git</code></p>
+
+<p><code>cd gcalendar-notification-server/gcalendar-notification-webserver/release</code></p>
+
+<p><code>java -jar gcalendar-notification-client-webserver-1.0.jar webPath=&lt;your_absolute_path&gt;/gcalendar-notification-server/web clientId=&lt;your_client_id&gt; clientSecret=&lt;your_client_secret&gt;</code></p>
+
+<p>_ replace  with your path prior to gcalendar-notification-webserver 
+_ replace  and  with the ones you got from google developper console</p>
+
+<ul>
+<li><p>go to you browser : http://localhost:4242/gcalendar</p></li>
+<li><p>now you can click on "start registration" button to request registration. You will see a verification url appear and a user code.</p></li>
+</ul>
+
+<p><i>If you dont see these two features appear maybe you have a problem with your client id / client secret</i></p>
+
+<ul>
+<li><p>go to specified URL and authorize access from Google API.</p></li>
+<li><p>once it is done, you can click on "request token" button, and shortly a token will appear</p></li>
+</ul>
+
+<p><img src="https://raw.github.com/akinaru/gcalendar-notification-server/master/sh.png" alt="screenshot"></p>
+
+<ul>
+<li><p>From this moment you will have access to "user profile", "calendar events", "create event" and "delete event" buttons</p></li>
+<li><p>You can create a fake event of your own with "create event" button putting the date time range of your choice</p></li>
+<li><p>You can subscribe to events to come (even events already existing) and you will see a notification coming to your window when event will be about to start (60 seconds befor event) or when the event has actually started</p></li>
+</ul>
+
+<p>In your console you can see talk between client and server :
+<img src="https://raw.github.com/akinaru/gcalendar-notification-server/master/sh2.png" alt="screenshot"></p>
+
+<h3>
+<a id="oauth20-for-device-registration" class="anchor" href="#oauth20-for-device-registration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Oauth2.0 for device registration</h3>
+
+<pre><code>String yourOwnClientId="812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com";
+String yourClientSecret="1912308409123890";
+</code></pre>
+
+<p>Now you can  instantiate <code>AuthenticationManager</code> class :</p>
+
+<pre><code>CalendarNotifManager calendarNotifManager = new CalendarNotifManager(yourOwnClientId, yourClientSecret);
+</code></pre>
+
+<p>Then you can request authentication :</p>
+
+<pre><code>calendarNotifManager.requestDeviceAuth(new IOauthDeviceResponseListener() {
+
+    @Override
+    public void onResponseReceived(OauthForDeviceResponse response) {
+
+        /* callback called when response is received from server*/
+
+    }
+});
+</code></pre>
+
+<p>Description of <code>OauthForDeviceResponse</code> :</p>
+
+<ul>
+<li>
+<code>getVerificationUrl()</code> : url from which user will log and therefore authorize your server to request token</li>
+<li>
+<code>getUserCode()</code> : code that user will reproduce exactly in the latter verification url</li>
+<li>
+<code>getDeviceCode()</code> : code identifying your server which is viewed as an end device requesting google api</li>
+<li>
+<code>getExpiringBefore()</code> : life time of your usercode in seconds</li>
+<li>
+<code>getInterval()</code> : time interval between a next attempt in seconds</li>
+</ul>
+
+<p>The verification url is displayed to the user via a web client.
+The user will reproduce the user code from the same web client and authorize the server to request token.
+From this point you will be able to request token.</p>
+
+<p>The whole authentication process is described in <a href="https://developers.google.com/identity/protocols/OAuth2ForDevices">https://developers.google.com/identity/protocols/OAuth2ForDevices</a></p>
+
+<h3>
+<a id="request-for-access-token" class="anchor" href="#request-for-access-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request for access token</h3>
+
+<pre><code>calendarNotifManager.requestToken(new IRequestTokenListener() {
+
+    @Override
+    public void onRequestTokenReceived(OauthToken token) {
+        //access token is received
+    }
+
+    @Override
+    public void onRequestTokenError(String description) {
+        //an error occured requesting access token
+    }
+});
+</code></pre>
+
+<p>Once you have received a token you can access Google calendar API and profile.</p>
+
+<h3>
+<a id="request-user-profile" class="anchor" href="#request-user-profile" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request user profile</h3>
+
+<pre><code>calendarNotifManager.getUserProfileManager().getUserProfile(new IUserProfileListener() {
+
+    @Override
+    public void onSuccess(UserProfile userProfile) {
+
+        // user profile received succcessfully :
+
+        //userProfile.getGender()
+        //userProfile.getDisplayName()
+        //userProfile.getFamilyName()
+        //userProfile.getGivenName()
+        //userProfile.getLanguage()
+    }
+
+    @Override
+    public void onError(String description) {
+        //an error occured requesting user profile
+    }
+});
+</code></pre>
+
+<h3>
+<a id="request-calendar-events" class="anchor" href="#request-calendar-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request calendar events</h3>
+
+<p>You can request event with date time range from <code>dateBegin</code> to <code>dateEnd</code> with these two values in String timestamp format according RFC 3339 (ex: 2015-08-06T23:30:20+02:00)
+You can optionnaly add a text filter</p>
+
+<pre><code>calendarNotifManager.getCalendarManager().getEventList(dateBegin, dateEnd, searchText, new IEventListListener() {
+
+    @Override
+    public void onEventListReceived(List&lt;CalendarEvents&gt; calendarEventList) {
+        //list of calendar events retrieved
+    }
+
+    @Override
+    public void onError(String description) {
+        //an error occured requesting calendar events
+    }
+});
+</code></pre>
+
+<p>Here is description of one event in List retrieved :</p>
+
+<ul>
+<li>
+<code>String getEventId()</code> : event identifier</li>
+<li>
+<code>String getStatus()</code>: event status</li>
+<li>
+<code>String getDateCreated()</code> : creation date of the event</li>
+<li>
+<code>String getDateUpdated()</code> : date of event udpate</li>
+<li>
+<code>String getSummary()</code> : event summary</li>
+<li>
+<code>String getCreatorEmail()</code> : event creator email</li>
+<li>
+<code>String getCreatorDisplayName()</code> : event creator display name</li>
+<li>
+<code>boolean isCreatorSelf()</code> : true if the event was created by calendar's owner</li>
+<li>
+<code>String getOrganizerEmail()</code> : event organizer email</li>
+<li>
+<code>String getOrganizerDisplayName()</code> : event organizer display name</li>
+<li>
+<code>boolean isOrganizerSelf()</code> : true if event organizer is calendar's owner</li>
+<li>
+<code>String getDateStart()</code> : event date start </li>
+<li>
+<code>String getDateEnd()</code> : event date end </li>
+<li>
+<code>String getDateTimeStart()</code> : event date and time start</li>
+<li>
+<code>String getDateTimeEnd()</code> : event date and time end</li>
+<li>
+<code>boolean isSubscribed()</code> : define if this event is subscribed or not (you will receive notification if true)</li>
+</ul>
+
+<h3>
+<a id="create-event" class="anchor" href="#create-event" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create event</h3>
+
+<p>You can create an event with begin and end date time of this event in String timestamp format according to RFC 3339 (ex: 2015-08-06T23:30:20+02:00) and precise a summary for this event.</p>
+
+<pre><code>calendarNotifManager.getCalendarManager().createEvent(dateBegin, dateEnd, summary, new ICreateEventListener() {
+
+    @Override
+    public void onCreateSuccess(String id) {
+        // event has been successfully created. The event id is returned on creation success
+    }
+
+    @Override
+    public void onError(String description) {
+        //an error occured during event creation
+    }
+
+});
+</code></pre>
+
+<h3>
+<a id="delete-event" class="anchor" href="#delete-event" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delete event</h3>
+
+<p>You can delete an evetn by <code>eventId</code> </p>
+
+<pre><code>calendarNotifManager.getCalendarManager().deleteEvent(eventId, new IDeleteEventListener() {
+
+    @Override
+    public void onSuccess() {
+        //event has been deleted
+    }
+
+    @Override
+    public void onError(String description) {
+        //an error occured during deletion process
+    }
+});
+</code></pre>
+
+<h3>
+<a id="event-notification--subscription" class="anchor" href="#event-notification--subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Event notification : subscription</h3>
+
+<p>You can be notified for a specified event referenced by its <code>eventId</code>. You will be notified when the event start and you can parameter the time in seconds before it actually starts when you want to be notified.</p>
+
+<p>If you want to be notified one minute before the event start replace <code>timeAboutToStart</code> by 60</p>
+
+<pre><code>calendarNotifManager.getNotificationManager().subscribeEvent(eventId, timeAboutToStart, new IEventListener() {
+
+    @Override
+    public void onEventStart(String eventId, String summary) {
+        //called when the event start
+    }
+
+    @Override
+    public void onEventAboutToStart(String eventId, String summary) {
+        //called when the event is about to start (if you put a value &gt;0 for timeAboutToStart parameter)
+    }
+});
+</code></pre>
+
+<h3>
+<a id="unsubscribtion" class="anchor" href="#unsubscribtion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unsubscribtion</h3>
+
+<pre><code>calendarNotifManager.getNotificationManager().unsubscribeEvent(eventId);
+</code></pre>
+
+<h3>
+<a id="get-an-oauth20-token-from-google-developper-console" class="anchor" href="#get-an-oauth20-token-from-google-developper-console" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get an Oauth2.0 token from Google developper console</h3>
+
+<p>For your application to be abled to request token for Oauth2.0 google API, you have to get one Oauth2.0 token from <a href="https://console.developers.google.com">https://console.developers.google.com</a></p>
+
+<ul>
+<li>First create a project</li>
+<li>in "credentials" tab "create a new client ID" choose "installed application",quote "other" and "create client ID"</li>
+<li>in "consent screen" tab choose tour email address and a product name (it should apparently match your project id name but I may be wrong here)</li>
+</ul>
+
+<p>Now in "crendentials" tab you should have an Oauth2.0 token client ID that looks like :<br>
+<code>812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com</code></p>
+
+<ul>
+<li>In "API" tab select "Google + API" and enable it</li>
+<li>In "API" tab select "Calendar API" and enable it</li>
+</ul>
+
+<p><b>External JAVA Library</b></p>
+
+<ul>
+<li><p>json-simple  : <a href="http://code.google.com/p/json-simple/">http://code.google.com/p/json-simple/</a></p></li>
+<li><p>clientsocket : <a href="https://github.com/akinaru/socket-multiplatform/tree/master/client/socket-client/java">https://github.com/akinaru/socket-multiplatform/tree/master/client/socket-client/java</a></p></li>
+<li><p>http-endec   : <a href="https://github.com/akinaru/http-endec-java">https://github.com/akinaru/http-endec-java</a></p></li>
+<li><p>serversocket : <a href="https://github.com/akinaru/socket-multiplatform/tree/master/server/server-socket/blocking/java">https://github.com/akinaru/socket-multiplatform/tree/master/server/server-socket/blocking/java</a></p></li>
+<li><p>websocket-java : <a href="https://github.com/akinaru/websocket-java">https://github.com/akinaru/websocket-java</a></p></li>
+</ul>
+
+<p><b>External UI features</b></p>
+
+<ul>
+<li><p>datetimepicker : <a href="https://github.com/xdan/datetimepicker">https://github.com/xdan/datetimepicker</a> by Chupurnov Valeriy</p></li>
+<li><p>notification message using css3 : <a href="https://dhirajkumarsingh.wordpress.com/2012/05/06/cool-notification-messages-with-css3-jquery/">https://dhirajkumarsingh.wordpress.com/2012/05/06/cool-notification-messages-with-css3-jquery/</a></p></li>
+</ul>
+
+<p><b>TODO</b></p>
+
+<ul>
+<li>stock raw configuration of events subscribed</li>
+<li>improve "create event" input arguments (attendees / place ...)</li>
+<li>configurable polling of "getEventList" API in case of concurrent modifications</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/akinaru/gcalendar-notification-server">Gcalendar-notification-server</a> is maintained by <a href="https://github.com/akinaru">akinaru</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
