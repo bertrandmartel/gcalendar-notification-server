@@ -55,6 +55,9 @@ _ replace <your_client_id> and <your_client_secret> with the ones you got from g
 
 * You can subscribe to events to come (even events already existing) and you will see a notification coming to your window when event will be about to start (60 seconds befor event) or when the event has actually started
 
+In your console you can see talk between client and server :
+![screenshot](https://raw.github.com/akinaru/gcalendar-notification-server/master/sh2.png)
+
 <h3>Oauth2.0 for device registration</h3>
 
 ```
