@@ -61,7 +61,7 @@ function updateSubscription(state,eventId)
   }
   else
   {
-    document.getElementById("infoMessage3").innerHTML="SMS sending failed ...";
+    document.getElementById("infoMessage3").innerHTML="subscription failure ...";
   }
 }
 
@@ -109,7 +109,7 @@ function sendCalendarEventCreation()
   }
   else
   {
-    document.getElementById("infoMessage3").innerHTML="SMS sending failed ...";
+    document.getElementById("infoMessage3").innerHTML="create event failure ...";
   }
 }
 
@@ -135,7 +135,7 @@ function deleteCalendarEvent()
   }
   else
   {
-    document.getElementById("infoMessage3").innerHTML="SMS sending failed ...";
+    document.getElementById("infoMessage3").innerHTML="event deletion failure ...";
   }
 }
 
@@ -159,7 +159,7 @@ function getCalendarEvents()
   }
   else
   {
-    document.getElementById("infoMessage3").innerHTML="SMS sending failed ...";
+    document.getElementById("infoMessage3").innerHTML="retrieve events failure ...";
   }
 }
 
