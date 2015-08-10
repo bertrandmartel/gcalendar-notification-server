@@ -47,6 +47,8 @@ _ replace <your_client_id> and <your_client_secret> with the ones you got from g
 
 * once it is done, you can click on "request token" button, and shortly a token will appear
 
+![screenshot](https://raw.github.com/akinaru/gcalendar-notification-server/master/sh.png)
+
 * From this moment you will have access to "user profile", "calendar events", "create event" and "delete event" buttons
 
 * You can create a fake event of your own with "create event" button putting the date time range of your choice
@@ -268,11 +270,12 @@ Now in "crendentials" tab you should have an Oauth2.0 token client ID that looks
 
 <b>External UI features</b>
 
-* datetimepicker : https://github.com/xdan/datetimepicker
+* datetimepicker : https://github.com/xdan/datetimepicker by Chupurnov Valeriy
 
 * notification message using css3 : https://dhirajkumarsingh.wordpress.com/2012/05/06/cool-notification-messages-with-css3-jquery/
 
 <b>TODO</b>
-_ stock raw configuration of events subscribed
-_ improve "create event" input arguments (attendees / place ...)
-_ configurable polling of "getEventList" API in case of concurrent modifications
+
+* stock raw configuration of events subscribed
+* improve "create event" input arguments (attendees / place ...)
+* configurable polling of "getEventList" API in case of concurrent modifications
