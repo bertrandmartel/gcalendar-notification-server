@@ -502,8 +502,6 @@ public class LaunchOauthApiServer {
 		System.out.println("### GCALENDAR NOTIFICATION SERVER ###");
 		System.out.println("Usage :");
 		System.out.println("[required] webpath=<path to web folder>");
-		System.out.println("[required] trustcertpath=<path to your google trustore path>");
-		System.out.println("[required] trustcertpwd=<google trustore password value>");
 		System.out.println("[required] clientid=<google client id> (you have to retrieve it from developper console)");
 		System.out.println("[required] clientsecret=<google client secret> (you have to retrieve it from developper console)");
 		System.out.println("#####################################");
