@@ -1,5 +1,5 @@
 # Google Calendar event notification server #
-http://akinaru.github.io/gcalendar-notification-server
+http://bertrandmartel.github.io/gcalendar-notification-server
 
 <i>Last update on 09/08/2015</i>
 
@@ -29,7 +29,7 @@ If you have your own server implementation, you can integrate gcalendar-notifica
 
 <h3>Run the testing server app</h3>
 
-``git clone git@github.com:akinaru/gcalendar-notification-server.git``
+``git clone git@github.com:bertrandmartel/gcalendar-notification-server.git``
 
 ``cd gcalendar-notification-server/gcalendar-notification-webserver/release``
 
@@ -48,7 +48,7 @@ _ replace <your_client_id> and <your_client_secret> with the ones you got from g
 
 * once it is done, you can click on "request token" button, and shortly a token will appear
 
-![screenshot](https://raw.github.com/akinaru/gcalendar-notification-server/master/sh.png)
+![screenshot](https://raw.github.com/bertrandmartel/gcalendar-notification-server/master/sh.png)
 
 * From this moment you will have access to "user profile", "calendar events", "create event" and "delete event" buttons
 
@@ -57,7 +57,7 @@ _ replace <your_client_id> and <your_client_secret> with the ones you got from g
 * You can subscribe to events to come (even events already existing) and you will see a notification coming to your window when event will be about to start (60 seconds befor event) or when the event has actually started
 
 In your console you can see talk between client and server :
-![screenshot](https://raw.github.com/akinaru/gcalendar-notification-server/master/sh2.png)
+![screenshot](https://raw.github.com/bertrandmartel/gcalendar-notification-server/master/sh2.png)
 
 <h3>Oauth2.0 for device registration</h3>
 
@@ -264,13 +264,13 @@ Now in "crendentials" tab you should have an Oauth2.0 token client ID that looks
 
 * json-simple  : http://code.google.com/p/json-simple/
 
-* clientsocket : https://github.com/akinaru/socket-multiplatform/tree/master/client/socket-client/java
+* clientsocket : https://github.com/bertrandmartel/socket-multiplatform/tree/master/client/socket-client/java
 
-* http-endec   : https://github.com/akinaru/http-endec-java
+* http-endec   : https://github.com/bertrandmartel/http-endec-java
 
-* serversocket : https://github.com/akinaru/socket-multiplatform/tree/master/server/server-socket/blocking/java
+* serversocket : https://github.com/bertrandmartel/socket-multiplatform/tree/master/server/server-socket/blocking/java
 
-* websocket-java : https://github.com/akinaru/websocket-java
+* websocket-java : https://github.com/bertrandmartel/websocket-java
 
 <b>External UI features</b>
 
